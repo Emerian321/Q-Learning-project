@@ -1,0 +1,12 @@
+robot1 1 0 5 6
+robot2 5 0 1 6
+robot3 5 6 1 0
+robot4 1 6 5 0
+
+W _ _ W _ _ W
+_ _ _ W _ _ _
+_ _ _ D _ _ _
+W W D W D W W
+_ _ _ D _ _ _
+_ _ _ W _ _ _
+W _ _ W _ _ W

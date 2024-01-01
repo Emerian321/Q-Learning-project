@@ -18,7 +18,7 @@ class MDPAgent():
         return self.Qvalues.setdefault(state, {action:0 for action in self.getLegalActions(state)})[action]
 
     """
-    Returns max_action of all Q(state,action) of every legal actions, or 0 if none exist.
+    Returns max(Q(state,action)) for every legal actions, or 0 if none exist.
     """
     def computeValueFromQvalue(self, state):
 
@@ -37,9 +37,7 @@ class MDPAgent():
     """
     Compute the action to take in the current state.  With
     probability self.epsilon, we should take a random action and
-    take the best policy action otherwise.  Note that if there are
-    no legal actions, which is the case at the terminal state, you
-    should choose None as the action.
+    take the best policy action otherwise. If they are no actions, return None
     """
     def getAction(self, state):
 

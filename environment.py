@@ -1,7 +1,9 @@
 import functools
 import random
 import numpy as np
+from copy import copy
 from gymnasium.spaces import Discrete, MultiDiscrete
+from parsing import parse_environment
 
 from pettingzoo import ParallelEnv
 
@@ -11,20 +13,38 @@ class CustomEnvironment(ParallelEnv):
         "name": "custom_environment_v0",
     }
 
-    def __init__(self, gridworld, robots, goals):
+    def __init__(self, filename):
         
-        self.gridwolrd = gridworld
+        self.filename = filename
         
-        self.robot_pos = {"robot" + str(i+1): robots[i] for i in range(len(robots))}
-        self.robot_goals = {"robot" + str(i+1): goals[i] for i in range(len(goals))}
+        self.gridworld = None
         
-        self.possible_agents = ["robot" + str(i+1) for i in range(len(robots))]
+        self.robot_pos = None
+        self.robot_goals = None
+        
+        self.possible_agents = parse_environment(self.filename)[1].keys
+        
+        self.timestep = None
 
     def reset(self, seed=None, options=None):
-        pass
+        self.agents = copy(self.possible_agents)
+        self.timestep = 0
+        self.gridworld, self.robot_pos, self.robot_goals = parse_environment(self.filename)
+        
+        observations = {
+            a: tuple(robot[0] + len(self.gridworld) * robot[1] for robot in self.robot_pos) + tuple(goal[0] + len(self.gridworld) * goal[1] for goal in self.robot_goals)
+            for a in self.agents
+        }
+        
+        # Get dummy infos. Necessary for proper parallel_to_aec conversion
+        
+        infos = {a: {} for a in self.agents}
+        
+        return observations, infos
 
     def step(self, actions):
-        pass
+        for agent in self.agents:
+            agent_action = actions[agent]
 
     def render(self):
         pass
