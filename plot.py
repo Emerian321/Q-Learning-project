@@ -8,6 +8,6 @@ def plot_graph(filename, graph_title, ylabel, dataset):
     
     plt.xlabel('Episodes')
     plt.ylabel(ylabel)
-    plt.title(graph_title, "in environment", filename)
+    plt.title(graph_title + "in environment" + filename)
     plt.legend()
     plt.show()

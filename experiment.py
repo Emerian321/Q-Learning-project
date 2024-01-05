@@ -1,16 +1,15 @@
 from environment import Environment
 from independant_learners import independant_learning
 from joint_action_learner import joint_action_learner
+from sparse_interaction_algorithm import sparse_interaction_algorithm
 from plot import plot_graph
 
 EPISODES = 10000
 DECAY = 9/10
 MINIMUM_EPSILON = 0.1
 RUNS = 7
-
-
 FILENAMES = ["grid1.txt", "grid2.txt", "grid3.txt"]
-ALGORITHMS = [independant_learning]
+ALGORITHMS = [independant_learning, joint_action_learner, joint_action_learner]
 
 def experiment():
 
@@ -21,7 +20,7 @@ def experiment():
         
         for run in range(RUNS):
             for alg in range(len(ALGORITHMS)):
-                time, rewards, miscoordinations = independant_learning(filename, EPISODES, DECAY, MINIMUM_EPSILON)
+                time, rewards, miscoordinations = ALGORITHMS[alg](filename, EPISODES, DECAY, MINIMUM_EPSILON)
                 for episode in range(EPISODES):
                     avg_time[alg][episode] += time[episode] / RUNS
                     avg_rewards[alg][episode] += rewards[episode] / RUNS

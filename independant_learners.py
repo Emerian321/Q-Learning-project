@@ -3,7 +3,6 @@ from environment import Environment
 import numpy as np
 
 
-
 def independant_learning(filename, num_episodes, decay_rate, min_epsilon):
     env = Environment(filename)
     state, _ = env.reset()
@@ -17,7 +16,6 @@ def independant_learning(filename, num_episodes, decay_rate, min_epsilon):
         state, _ = env.reset()
         actions = dict()
         done = False
-        timestep = 0
         terminated = {a: False for a in env.get_agents()}
                 
         while not done:
