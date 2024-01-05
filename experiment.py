@@ -12,7 +12,6 @@ FILENAMES = ["grid1.txt", "grid2.txt", "grid3.txt"]
 ALGORITHMS = [independant_learning, joint_action_learner, joint_action_learner]
 
 def experiment():
-
     for filename in FILENAMES:
         avg_time = [[0 for i in range(EPISODES)] for i in range(len(ALGORITHMS))]
         avg_rewards = [[0 for i in range(EPISODES)] for i in range(len(ALGORITHMS))]
