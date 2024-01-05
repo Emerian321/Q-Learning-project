@@ -1,9 +1,9 @@
 
 
-def parse_environment(file: str):
+def parse_environment(file: str) -> (list[list], dict(), dict()):
     grid = []
-    robots = {}
-    goals = {}
+    robots = dict()
+    goals = dict()
     with open(file) as f:
         read_grid = False
         for line in f.readlines():
@@ -12,8 +12,8 @@ def parse_environment(file: str):
                 if read_grid:
                     grid.append(listed_line)
                 else:
-                    robots[listed_line[0]] = (listed_line[1], listed_line[2])
-                    goals[listed_line[0]] = (listed_line[3], listed_line[4])
+                    robots[listed_line[0]] = (int(listed_line[1]), int(listed_line[2]))
+                    goals[listed_line[0]] = (int(listed_line[3]), int(listed_line[4]))
 
             else:
                 read_grid = True
