@@ -59,20 +59,24 @@ class Environment(ParallelEnv):
                 if agent_action == "E":
                     self.robot_pos[agent] = current_pos[0] + 1, current_pos[1]
 
+
             x, y = self.robot_pos[agent]
             in_doorway = True if self.gridworld[y][x] == "D" else False
-
             if self.robot_pos[agent] in next_pos and in_doorway:
                 for a in self.agents:
                     if self.robot_pos[a] == self.robot_pos[agent]:
                         agent_penalty[a] = True
+                        self.miscoordinations += 1
 
-                next_pos.append(self.robot_pos[agent])
+            next_pos.append(self.robot_pos[agent])
 
         terminations = {a: False for a in self.agents}
-        rewards = {a: -0.5 for a in self.agents}
+        rewards = {a: -0.1 for a in self.agents}
         
         for a in self.agents:
+            if self.robot_pos[a] == self.robot_goals[a]:
+                pass
+                
             if self.robot_pos[a] == self.robot_goals[a]:
                 rewards[a] += 10
                 terminations[a] = True
@@ -84,20 +88,14 @@ class Environment(ParallelEnv):
         self.timestep += 1      
         truncations = {a: False for a in self.agents}
         if self.timestep > 99:
-            rewards = {a: -0.5 for a in self.agents}
+            rewards = {a: -0.1 for a in self.agents}
             truncations = {a: True for a in self.agents}
-        
-
 
         observations = { a: self.robot_pos[a][0] + len(self.gridworld) * self.robot_pos[a][1] for a in self.agents } 
         
         # Get dummy infos. Necessary for proper parallel_to_aec conversion
         
         infos = {a: {} for a in self.agents}      
-        
-        if any(terminations.values()) or all(truncations.values()):
-            self.agents = []
-            
         return observations, rewards, terminations, truncations, infos
         
 

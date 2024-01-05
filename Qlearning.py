@@ -62,7 +62,6 @@ class Qlearner:
         #if a randomly chosen value between 0 and 1 is less than epsilon, 
         #then choose the most promising value from the Q-table for this state.
         if np.random.random() > self.exploration_rate:
-
             return ACTIONS[np.argmax(self.q_table[state])]
         else: #choose a random action
             action = float("-inf")
